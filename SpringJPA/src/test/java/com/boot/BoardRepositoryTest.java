@@ -41,11 +41,11 @@ public class BoardRepositoryTest {
 	}*/
 	
 	//게시글 삭제
-	/*@Test
+	@Test
 	public void testDeleteBoard() {
 		log.info("2번 게시글 삭제");
-		boardRepo.deleteById(2L);
-	}*/
+		boardRepo.deleteById(3L);
+	}
 	
 	//게시글 수정
 	/*@Test
