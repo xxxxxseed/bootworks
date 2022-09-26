@@ -7,6 +7,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import com.boot.domain.Board;
 import com.boot.persistence.BoardRepository;
@@ -65,10 +69,31 @@ public class QueryMethodTest {
 		}
 	}*/
 	
-	@Test
+	/*@Test
 	public void testFindByTitleContainingOrderBySeqDesc() {
 		List<Board> boardList = 
 				boardRepo.findByTitleContainingOrderBySeqDesc("17");
+		
+		log.info("검색 결과");
+		for(Board board : boardList) {
+			log.info("--->" + board.toString());
+		}
+	}*/
+	
+	@Test
+	public void testFindTitleContaining() {
+		Pageable paging = PageRequest.of(0, 10, Sort.Direction.DESC, "seq");
+		
+		//List<Board> boardList = boardRepo.findByTitleContaining("제목", paging);
+		Page<Board> pageInfo = boardRepo.findByTitleContaining("제목", paging);
+		
+		System.out.println("PAGE SIZE: " + pageInfo.getSize());				//페이지당 게시글 수
+		System.out.println("TOTAL PAGE: " + pageInfo.getTotalPages());		//전체 페이지 수
+		System.out.println("TOTAL COUNT: " + pageInfo.getTotalElements());	//전체 게시글 수
+		System.out.println("PREV: " + pageInfo.previousPageable());		
+		System.out.println("NEXT: " + pageInfo.nextPageable());
+		
+		List<Board> boardList = pageInfo.getContent();
 		
 		log.info("검색 결과");
 		for(Board board : boardList) {
