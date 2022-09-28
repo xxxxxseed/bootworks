@@ -1,5 +1,6 @@
 package com.boot.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,31 @@ public class MemberServiceImpl implements MemberService{
 			return null;
 		}
 	}
+
+	//회원 가입
+	@Override
+	public void signup(Member member) {
+		member.setRole("ROLE_USER");	//권한 설정
+		memberRepo.save(member);
+	}
+	
+	//회원 정보
+	@Override
+	public Member getOne(String id) {
+		return memberRepo.findById(id).get();
+	}
+
+	//회원 탈퇴
+	@Override
+	public void delete(Member member) {
+		memberRepo.delete(member);
+	}
+
+	//회원 수정
+	@Override
+	public void update(Member member) {
+		memberRepo.save(member);
+	}
+	
+	
 }

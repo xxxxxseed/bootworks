@@ -1,0 +1,31 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8">
+	<title>회원 목록</title>
+	<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+	<div th:replace="menu.html::nav"></div>
+	<div id="container">
+		<h2>회원 목록</h2>
+		<!-- <h3><font color="red" th:text="${session['member'].name}"></font>님 게시판 입장을 환영합니다... -->
+		<a th:href="@{/logout}">LOG_OUT</a></h3>
+		<table class="tbl_list">
+			<thead>
+				<tr>
+					<th>아이디</th><th>이름</th><th>비밀번호</th><th>권한</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="member : ${memberList}">
+					<td th:text="${member.id}"></td>
+					<td th:text="${member.name}"></td>
+					<td th:text="${member.password}"></td>
+					<td th:text="${member.role}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p><a th:href="@{/insertBoard}">새글 등록</a></p>
+	</div>
+</body>
+</html>

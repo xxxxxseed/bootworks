@@ -13,7 +13,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@ToString
+//순환 참조를 하므로 member 객체를 제외함
+@ToString(exclude="member")
 @Setter
 @Getter
 @Entity		//DB 테이블을 만드는 어노테이션
@@ -33,7 +34,7 @@ public class Board {
 			columnDefinition="bigint DEFAULT 0")
 	private Long cnt = 0L;		//조회수 - 초기화
 	
-	//연관 관계
+	//연관 관계(다대일) 매핑
 	@ManyToOne
 	@JoinColumn(name="MEMBER_ID")
 	private Member member;
