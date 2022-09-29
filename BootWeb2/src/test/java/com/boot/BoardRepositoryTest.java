@@ -20,7 +20,7 @@ public class BoardRepositoryTest {
 	private BoardRepository boardRepo;		//인터페이스형 객체
 	
 	//게시글 등록
-	@Test
+	/*@Test
 	public void testInsertBoard() {
 		Board board = new Board();
 		board.setTitle("첫 번째 게시글");
@@ -30,7 +30,7 @@ public class BoardRepositoryTest {
 		board.setCnt(0L);
 		
 		boardRepo.save(board);				//insert 기능(db에 저장)
-	}
+	}*/
 	
 	//게시글 1개 보기
 	/*@Test

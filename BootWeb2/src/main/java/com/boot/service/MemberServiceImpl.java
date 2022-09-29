@@ -52,6 +52,12 @@ public class MemberServiceImpl implements MemberService{
 	public void update(Member member) {
 		memberRepo.save(member);
 	}
+
+	//ID 중복 확인
+	@Override
+	public int checkID(String id) {
+		return memberRepo.checkID(id);
+	}
 	
 	
 }

@@ -18,7 +18,7 @@ public class DataInitializeTest {
 	@Autowired
 	private BoardRepository boardRepo;
 	
-	@Test
+	/*@Test
 	public void testDataInsert() {
 		Member member1 = new Member();
 		member1.setId("member1");
@@ -50,5 +50,5 @@ public class DataInitializeTest {
 			board.setContent("관리자가 등록한 게시글 내용 " + i);
 			boardRepo.save(board);
 		}
-	}
+	}*/
 }
