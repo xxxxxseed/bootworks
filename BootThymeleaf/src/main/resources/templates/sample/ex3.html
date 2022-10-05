@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+	<h1>상품 리스트 출력 예제</h1>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>순번</th>
+				<th>상품명</th>
+				<th>상품명2</th>
+				<th>가격</th>
+				<th>상품설명</th>
+				<th>등록일</th>
+				<th>등록일2</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="item : ${itemList}"
+				th:if="${item.id} % 2 ==0">
+				<td th:text="${item.id}"></td>
+				<td th:text="${item.itemNm}"></td>
+				<td>[[${item.itemNm}]]</td>
+				<td th:text="${item.price}"></td>
+				<td th:text="${item.itemDetail}"></td>
+				<td th:text="${#temporals.format(item.regTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+				<td>[[${#temporals.format(item.regTime, 'yyyy-MM-dd HH:mm:ss')}]]</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

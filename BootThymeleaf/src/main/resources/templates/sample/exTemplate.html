@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<th:block th:replace="~{/layouts/layout1::setContent(~{this::content})}">
+
+	<th:block th:fragment="content">
+		<h1>exTemplate Page</h1>
+		<h3>타임리프 예제입니다.</h3>
+	</th:block>
+	
+</th:block>
+</html>
