@@ -1,5 +1,6 @@
 package com.boot.service;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import org.springframework.data.domain.Page;
@@ -46,6 +47,14 @@ public class GuestbookServiceImpl implements GuestbookService{
 		log.info("result: " + result);
 		Function<Guestbook, GuestbookDto> fn = (entity -> entityToDto(entity));
 		return new PageResultDto<>(result, fn);
+	}
+
+	@Override
+	public GuestbookDto read(Long gno) {
+		Optional<Guestbook> result = repository.findById(gno);
+		
+		//찾은 객체가 있으면 entityToDto를 호출, 아니면 null 반환
+		return result.isPresent() ? entityToDto(result.get()) : null;
 	}
 
 }

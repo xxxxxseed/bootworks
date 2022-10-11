@@ -21,7 +21,11 @@ public class MemberController {
 	
 	//로그인
 	@GetMapping("/login")
-	public void login() {}			//template/member/login.html
+	public void login(String error, Model model) {	//template/member/login.html
+		if(error != null) {
+			model.addAttribute("error", "아이디나 비밀번호를 확인해주세요.");
+		}
+	}			
 	
 	//로그아웃
 	@GetMapping("/logout")

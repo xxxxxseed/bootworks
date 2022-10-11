@@ -1,4 +1,4 @@
-package com.boot.cto;
+package com.boot.dto;
 
 import lombok.Getter;
 import lombok.Setter;

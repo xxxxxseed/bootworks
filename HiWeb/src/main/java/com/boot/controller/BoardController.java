@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.boot.config.SecurityUser;
-import com.boot.cto.FileDto;
 import com.boot.domain.Board;
 import com.boot.domain.Search;
+import com.boot.dto.FileDto;
 import com.boot.service.BoardService;
 
 @RequestMapping("/board/")
