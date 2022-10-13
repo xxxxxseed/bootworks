@@ -23,7 +23,7 @@ public class DataInitializeTest {
 	@Autowired
 	private PasswordEncoder pwencoder;
 	
-	@Test
+	/*@Test
 	public void testInsert() {
 		//회원
 		Member member1 = new Member();
@@ -60,5 +60,5 @@ public class DataInitializeTest {
 			board.setContent(member2.getName() + "이 등록한 게시글 내용 " + i);
 			boardRepo.save(board);
 		}
-	}
+	}*/
 }
