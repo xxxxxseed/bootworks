@@ -8,32 +8,64 @@
 	<div layout:fragment="content" class="content">
 		<h2>게시글 상세 보기</h2>
 		<form th:action="@{/board/update}" method="post" class="mt-4">
+			<input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}">
 			<div class="form-group row">
-				<label>번호</label>
+				<label class="col-sm-2">번호</label>
+				<div class="col-sm-3">
 				<input type="text" name="bno" class="form-control"
 					th:value="${dto.bno}" readonly="readonly">
+				</div>
 			</div>
 			<div class="form-group row">
-				<label>제목</label>
+				<label class="col-sm-2">제목</label>
+				<div class="col-sm-6">
 				<input type="text" name="title" class="form-control"
 					th:value="${dto.title}">
+				</div>
 			</div>
 			<div class="form-group row">
-				<label>내용</label>
+				<label class="col-sm-2">내용</label>
+				<div class="col-sm-6">
 				<textarea name="content" rows="5" 
 					class="form-control">[[${dto.content}]]</textarea>
+				</div>
 			</div>
 			<div class="form-group row">
-				<label>작성자</label>
-				<input type="text" name="writer" class="form-control"
-					th:value="${dto.writerName}" readonly="readonly">
+				<label class="col-sm-2">작성자</label>
+				<div class="col-sm-3">
+				<span th:text="${dto.writerName}"></span>
+				<!-- <input type="text" name="writer" class="form-control"
+					th:value="${dto.writerName}" readonly="readonly"> -->
+				</div>
 			</div>
 			<div class="form-group row">
-				<label>등록일</label>
-				<input type="text" name="regDate" class="form-control"
-					th:value="${dto.regDate}" readonly="readonly">
+				<label class="col-sm-2">등록일</label>
+				<div class="col-sm-6">
+				<span th:text="${#temporals.format(dto.regDate, 'yyyy-MM-dd HH:mm:ss')}"></span>
+				</div>
+				<!-- <input type="datetime-local" name="regDate" class="form-control"
+					th:value="${dto.regDate}" readonly="readonly"> -->
 			</div>
-			<a th:href="@{/board/list(page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}" class="btn btn-primary">목록</a>
+			<div class="form-group row">
+				<label class="col-sm-2">조회수</label>
+				<div class="col-sm-3">
+				<span th:text="${dto.cnt}"></span>
+				<!-- <input type="text" name="cnt" class="form-control"
+					th:value="${dto.cnt}" readonly="readonly"> -->
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-3">
+					<th:block th:if="${#authentication.getPrincipal().getUsername() eq dto.writerUserid}">
+					<button type="submit" class="btn btn-success">수정</button>
+					<a th:href="@{/board/delete(bno=${dto.bno})}"
+						th:onclick="return confirm('정말로 삭제하시겠습니까?')"
+						class="btn btn-danger">삭제</a>
+					</th:block>
+					<a th:href="@{/board/list(page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}" class="btn btn-primary">목록</a>
+				</div>
+			</div>
+			<!-- <a th:href="@{/board/list(page=${requestDto.page}, type=${requestDto.type}, keyword=${requestDto.keyword})}" class="btn btn-primary">목록</a> -->
 		</form>
 		<!-- 댓글 영역 시작 -->
 		<div>
@@ -85,6 +117,16 @@
 		<script th:inline="javascript">
 			$(document).ready(function(){
 				let bno = [[${dto.bno}]];
+				let token = $("meta[name='_csrf']").attr("content");
+				let header = $("meta[name='_csrf_header']").attr("content");
+				
+				$(function() {
+					if(token && header){
+					    $(document).ajaxSend(function(e, xhr, options) {
+					        xhr.setRequestHeader(header, token);
+					    });
+					}
+				});
 				
 				//댓글 목록
 				let listGroup = $(".replyList");
@@ -160,6 +202,9 @@
 						data: JSON.stringify(reply),
 						contentType: "application/json; charset=utf-8",
 						dataType: "json",
+						beforeSend: function(xhr){
+							xhr.setRequestHeader(header, token);
+						},
 						success: function(data){
 							console.log(data);
 							
@@ -167,6 +212,10 @@
 							alert(newRno + "번 댓글이 등록되었습니다.");
 							modal.modal('hide');
 							loadJSONData();		//댓글 목록(새로 고챔)
+						},
+						error: function(xhr,status,error){
+							alert("에러");
+							console.log('error: ' + error);
 						}
 					});
 				});
@@ -193,12 +242,20 @@
 					$.ajax({
 						url: "/replies/" + rno,
 						method: "delete",
+						beforeSend: function(xhr){
+							xhr.setRequestHeader(header, token);
+							console.log(xhr);
+						},
 						success: function(data){
 							if(data == "success"){
 								alert("댓글이 삭제되었습니다.");
 								modal.modal("hide");
 								loadJSONData();				//목록 새로 고침
 							}
+						},
+						error: function(xhr,status,error){
+							alert("에러");
+							console.log('error: ' + error);
 						}
 						
 					});
@@ -222,6 +279,9 @@
 						method: "put",
 						data: JSON.stringify(reply),
 						contentType: "application/json; charset=utf-8",
+						beforeSend: function(xhr){
+							xhr.setRequestHeader(header, token);
+						},
 						success: function(data){
 							console.log("data" + data);
 							
@@ -230,6 +290,10 @@
 								modal.modal("hide");
 								loadJSONData();
 							}
+						},
+						error: function(xhr,status,error){
+							alert("에러");
+							console.log('error: ' + error);
 						}
 						
 					});
