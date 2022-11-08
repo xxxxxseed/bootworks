@@ -47,7 +47,7 @@ public class MemberServiceImpl implements MemberService{
 		memberRepo.save(member);
 	}
 
-	//회원 정보 수정
+	//회원 탈퇴
 	@Override
 	public void delete(Member member) {
 		memberRepo.delete(member);
